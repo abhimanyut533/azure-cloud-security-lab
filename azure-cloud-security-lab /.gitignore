@@ -1,0 +1,16 @@
+# Terraform state and plans can contain secrets — never commit them
+**/.terraform/*
+*.tfstate
+*.tfstate.*
+*.tfvars
+!*.tfvars.example
+tfplan
+*.tfplan
+/plan_*.json
+crash.log
+# keys
+*.pem
+id_*
+# python
+__pycache__/
+*.pyc
