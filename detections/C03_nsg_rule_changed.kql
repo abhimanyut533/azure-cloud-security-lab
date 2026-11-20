@@ -1,0 +1,19 @@
+// id: C03
+// name: Network security rule created or changed
+// severity: Medium
+// tactics: DefenseEvasion
+// techniques: T1562
+// mitre: T1562.007
+// iso27001: A.8.20, A.8.9, A.8.32
+// description: An NSG security rule was written. Opening a port to the Internet is a classic way to expose a VM or create a way back in.
+AzureActivity
+| where OperationNameValue =~ "MICROSOFT.NETWORK/NETWORKSECURITYGROUPS/SECURITYRULES/WRITE"
+| where ActivityStatusValue in~ ("Success", "Succeeded")
+| extend RuleName = extract(@"(?i)securityRules/([^/]+)$", 1, _ResourceId)
+| project TimeGenerated,
+          Resource = _ResourceId,
+          Account = Caller,
+          Detection = "C03 Network security rule created or changed",
+          Mitre = "T1562.007",
+          Severity = "Medium",
+          Details = strcat("rule=", RuleName, " caller_ip=", CallerIpAddress, " rg=", ResourceGroup)

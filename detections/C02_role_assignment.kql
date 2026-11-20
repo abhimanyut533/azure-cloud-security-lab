@@ -1,0 +1,25 @@
+// id: C02
+// name: Role assigned in Azure (possible privilege escalation)
+// severity: High
+// tactics: PrivilegeEscalation,Persistence
+// techniques: T1098
+// mitre: T1098.003
+// iso27001: A.8.2, A.5.15, A.5.18
+// description: A role assignment was created. Owner, Contributor and User Access Administrator are flagged High; other roles Medium.
+AzureActivity
+| where OperationNameValue =~ "MICROSOFT.AUTHORIZATION/ROLEASSIGNMENTS/WRITE"
+| where ActivityStatusValue in~ ("Success", "Succeeded")
+| extend Props = tostring(Properties_d)
+| extend RoleName = case(
+    Props contains "8e3af657-a8ff-443c-a75c-2fe8c4bcb635", "Owner",
+    Props contains "b24988ac-6180-42a0-ab88-20f7382dd24c", "Contributor",
+    Props contains "18d7d88d-d35e-4fb5-a5c3-7773c20a72d9", "User Access Administrator",
+    Props contains "acdd72a7-3385-48ef-bd42-f606fba81ae7", "Reader",
+    "other")
+| project TimeGenerated,
+          Resource = _ResourceId,
+          Account = Caller,
+          Detection = "C02 Role assigned in Azure (possible privilege escalation)",
+          Mitre = "T1098.003",
+          Severity = iff(RoleName in ("Owner", "Contributor", "User Access Administrator"), "High", "Medium"),
+          Details = strcat("role=", RoleName, " caller_ip=", CallerIpAddress, " rg=", ResourceGroup)

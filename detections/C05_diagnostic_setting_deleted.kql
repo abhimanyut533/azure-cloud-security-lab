@@ -1,0 +1,18 @@
+// id: C05
+// name: Logging disabled (diagnostic setting deleted)
+// severity: High
+// tactics: DefenseEvasion
+// techniques: T1562
+// mitre: T1562.008
+// iso27001: A.8.15, A.8.16, A.5.28
+// description: A diagnostic setting was deleted, so a resource stopped sending logs. Attackers do this to hide their activity.
+AzureActivity
+| where OperationNameValue =~ "MICROSOFT.INSIGHTS/DIAGNOSTICSETTINGS/DELETE"
+| where ActivityStatusValue in~ ("Success", "Succeeded")
+| project TimeGenerated,
+          Resource = _ResourceId,
+          Account = Caller,
+          Detection = "C05 Logging disabled (diagnostic setting deleted)",
+          Mitre = "T1562.008",
+          Severity = "High",
+          Details = strcat("caller_ip=", CallerIpAddress, " rg=", ResourceGroup)

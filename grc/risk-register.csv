@@ -1,0 +1,7 @@
+ID,Risk,Asset,Threat / ATT&CK,Likelihood (1-5),Impact (1-5),Score (LxI),Level,Cause (misconfiguration),Detection in lab,ISO 27001:2022 control,Treatment,Owner,Residual level
+R01,Customer data exposed publicly,Storage account (reports),T1530 Data from Cloud Storage,4,5,20,High,Public blob container,C04,A.5.15; A.8.12,Reduce: private containers + Azure Policy denying public access,Cloud lead,Low
+R02,VM compromised through SSH,Linux VM,T1110 Brute Force,4,4,16,High,SSH open to the Internet,C01,A.8.5; A.8.20,Reduce: keys only + source IP restriction or Bastion,Cloud lead,Low
+R03,Attacker takes over the whole subscription,Subscription,T1098.003 Additional Cloud Roles,3,5,15,High,App identity is Contributor on the subscription,C02,A.8.2; A.5.18,Reduce: least privilege (Reader on RG) + review of role assignments,Security lead,Low
+R04,Attacker opens new access paths,Network,T1562.007 Modify Cloud Firewall,3,4,12,Medium,Anyone with Contributor can change NSGs,C03,A.8.20; A.8.32,Reduce: change control via Terraform only + alert,Cloud lead,Low
+R05,Attacker hides activity by turning off logs,Logging,T1562.008 Modify Cloud Logs,2,5,10,Medium,Over-privileged identities,C05,A.8.15; A.5.28,Reduce: alert + restrict who can edit diagnostic settings,Security lead,Low
+R06,Incidents missed (no one watching alerts),Whole cloud environment,All,4,4,16,High,No on-call / automation,None,A.8.16; A.5.26,Reduce: Sentinel automation (email/Teams) + weekly review,Management,Medium

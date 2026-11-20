@@ -1,0 +1,19 @@
+// id: C04
+// name: Anonymous read of storage blobs
+// severity: High
+// tactics: Collection
+// techniques: T1530
+// mitre: T1530
+// iso27001: A.5.15, A.8.3, A.8.12
+// description: Blobs were downloaded without any authentication. Data is publicly exposed.
+StorageBlobLogs
+| where AuthenticationType =~ "Anonymous"
+| where OperationName =~ "GetBlob"
+| summarize Reads = count(), Objects = make_set(ObjectKey, 10), Codes = make_set(StatusCode, 5), LastSeen = max(TimeGenerated) by CallerIpAddress, AccountName
+| project TimeGenerated = LastSeen,
+          Resource = AccountName,
+          Account = "anonymous",
+          Detection = "C04 Anonymous read of storage blobs",
+          Mitre = "T1530",
+          Severity = "High",
+          Details = strcat("reads=", Reads, " from=", CallerIpAddress, " status=", strcat_array(Codes, ","), " objects=", strcat_array(Objects, ","))

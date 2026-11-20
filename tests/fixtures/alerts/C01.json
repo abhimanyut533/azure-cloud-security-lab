@@ -1,0 +1,12 @@
+[
+ {
+  "TableName": "PrimaryResult",
+  "TimeGenerated": "2026-11-25T18:04:11.1234567Z",
+  "Resource": "vm-csl-abc123",
+  "Account": "fakeuser1,fakeuser2",
+  "Detection": "C01 SSH brute force against a VM",
+  "Mitre": "T1110.001,T1110.003",
+  "Severity": "Medium",
+  "Details": "attempts=40 src_ip=198.51.100.7 first_seen=2026-11-25 18:03:40"
+ }
+]

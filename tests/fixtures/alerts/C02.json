@@ -1,0 +1,12 @@
+[
+ {
+  "TableName": "PrimaryResult",
+  "TimeGenerated": "2026-11-25T18:05:02Z",
+  "Resource": "/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/rg-csl-abc123/providers/microsoft.authorization/roleassignments/1111",
+  "Account": "student@example.invalid",
+  "Detection": "C02 Role assigned in Azure (possible privilege escalation)",
+  "Mitre": "T1098.003",
+  "Severity": "High",
+  "Details": "role=User Access Administrator caller_ip=198.51.100.7 rg=RG-CSL-ABC123"
+ }
+]

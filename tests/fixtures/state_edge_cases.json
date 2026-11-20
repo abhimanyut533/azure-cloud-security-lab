@@ -1,0 +1,69 @@
+{
+ "values": {
+  "root_module": {
+   "resources": [
+    {
+     "address": "azurerm_log_analytics_workspace.w",
+     "type": "azurerm_log_analytics_workspace",
+     "values": {
+      "retention_in_days": 7
+     }
+    },
+    {
+     "address": "azurerm_network_security_group.g",
+     "type": "azurerm_network_security_group",
+     "values": {
+      "security_rule": [
+       {
+        "name": "range",
+        "direction": "Inbound",
+        "access": "Allow",
+        "destination_port_ranges": [
+         "3380-3390"
+        ],
+        "source_address_prefixes": [
+         "Internet"
+        ]
+       },
+       {
+        "name": "deny",
+        "direction": "Inbound",
+        "access": "Deny",
+        "destination_port_range": "*",
+        "source_address_prefix": "*"
+       },
+       {
+        "name": "web",
+        "direction": "Inbound",
+        "access": "Allow",
+        "destination_port_range": "443",
+        "source_address_prefix": "*"
+       }
+      ]
+     }
+    }
+   ],
+   "child_modules": [
+    {
+     "resources": [
+      {
+       "address": "module.m.azurerm_linux_virtual_machine.v",
+       "type": "azurerm_linux_virtual_machine",
+       "values": {
+        "disable_password_authentication": false
+       }
+      },
+      {
+       "address": "module.m.azurerm_role_assignment.r",
+       "type": "azurerm_role_assignment",
+       "values": {
+        "role_definition_name": "Owner",
+        "scope": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/x"
+       }
+      }
+     ]
+    }
+   ]
+  }
+ }
+}

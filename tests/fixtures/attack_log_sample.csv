@@ -1,0 +1,5 @@
+time_utc,step,mitre,description
+2026-11-25T18:03:30Z,S1,T1110.001,20 SSH logins with invalid user names
+2026-11-25T18:04:20Z,S2,T1530,Anonymous download
+2026-11-25T18:04:50Z,S3,T1098.003,Role assignment
+2026-11-25T18:05:10Z,S4,T1562.007,Open RDP

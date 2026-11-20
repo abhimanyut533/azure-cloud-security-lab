@@ -1,0 +1,23 @@
+// id: C01
+// name: SSH brute force against a VM
+// severity: Medium
+// tactics: CredentialAccess
+// techniques: T1110
+// mitre: T1110.001,T1110.003
+// iso27001: A.8.5, A.8.16, A.8.20
+// description: 10 or more failed SSH logins from one IP against one VM in the query window (Syslog auth/authpriv). One attempt can write 2 log lines.
+Syslog
+| where Facility in ("auth", "authpriv")
+| where SyslogMessage matches regex @"(?i)(invalid user|failed password|authentication failure|connection closed by (authenticating|invalid) user|disconnected from (authenticating|invalid) user)"
+| extend SourceIP = extract(@"(\d{1,3}(?:\.\d{1,3}){3})", 1, SyslogMessage)
+| extend TriedUser = extract(@"(?i)(?:invalid|authenticating) user (\S+)", 1, SyslogMessage)
+| where isnotempty(SourceIP)
+| summarize Attempts = count(), Users = make_set(TriedUser, 10), FirstSeen = min(TimeGenerated), LastSeen = max(TimeGenerated) by SourceIP, Computer
+| where Attempts >= 10
+| project TimeGenerated = LastSeen,
+          Resource = Computer,
+          Account = strcat_array(Users, ","),
+          Detection = "C01 SSH brute force against a VM",
+          Mitre = "T1110.001,T1110.003",
+          Severity = "Medium",
+          Details = strcat("attempts=", Attempts, " src_ip=", SourceIP, " first_seen=", format_datetime(FirstSeen, "yyyy-MM-dd HH:mm:ss"))

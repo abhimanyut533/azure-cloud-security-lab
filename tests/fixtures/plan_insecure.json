@@ -1,0 +1,97 @@
+{
+ "format_version": "1.2",
+ "planned_values": {
+  "root_module": {
+   "resources": [
+    {
+     "address": "azurerm_resource_group.lab",
+     "mode": "managed",
+     "type": "azurerm_resource_group",
+     "name": "lab",
+     "values": {
+      "name": "rg-csl-abc123",
+      "location": "francecentral"
+     }
+    },
+    {
+     "address": "azurerm_log_analytics_workspace.law",
+     "mode": "managed",
+     "type": "azurerm_log_analytics_workspace",
+     "name": "law",
+     "values": {
+      "retention_in_days": 30
+     }
+    },
+    {
+     "address": "azurerm_monitor_diagnostic_setting.activity",
+     "mode": "managed",
+     "type": "azurerm_monitor_diagnostic_setting",
+     "name": "activity",
+     "values": {
+      "target_resource_id": "/subscriptions/00000000-0000-0000-0000-000000000000"
+     }
+    },
+    {
+     "address": "azurerm_storage_account.data",
+     "mode": "managed",
+     "type": "azurerm_storage_account",
+     "name": "data",
+     "values": {
+      "allow_nested_items_to_be_public": true,
+      "https_traffic_only_enabled": true,
+      "min_tls_version": "TLS1_2"
+     }
+    },
+    {
+     "address": "azurerm_storage_container.reports",
+     "mode": "managed",
+     "type": "azurerm_storage_container",
+     "name": "reports",
+     "values": {
+      "container_access_type": "blob"
+     }
+    },
+    {
+     "address": "azurerm_network_security_rule.ssh",
+     "mode": "managed",
+     "type": "azurerm_network_security_rule",
+     "name": "ssh",
+     "values": {
+      "name": "Allow-SSH",
+      "direction": "Inbound",
+      "access": "Allow",
+      "destination_port_range": "22",
+      "source_address_prefix": "*"
+     }
+    },
+    {
+     "address": "azurerm_linux_virtual_machine.vm",
+     "mode": "managed",
+     "type": "azurerm_linux_virtual_machine",
+     "name": "vm",
+     "values": {
+      "disable_password_authentication": true
+     }
+    },
+    {
+     "address": "azurerm_role_assignment.app",
+     "mode": "managed",
+     "type": "azurerm_role_assignment",
+     "name": "app",
+     "values": {
+      "role_definition_name": "Contributor",
+      "scope": "/subscriptions/00000000-0000-0000-0000-000000000000"
+     }
+    },
+    {
+     "address": "data.azurerm_subscription.current",
+     "mode": "data",
+     "type": "azurerm_subscription",
+     "name": "current",
+     "values": {}
+    }
+   ],
+   "child_modules": []
+  }
+ }
+}

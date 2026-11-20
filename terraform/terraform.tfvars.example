@@ -1,0 +1,15 @@
+# Copy to terraform.tfvars and edit.
+
+# Phase 1 (misconfigured):
+secure_mode = false
+
+# Phase 2 (hardened) — set both lines:
+# secure_mode = true
+# admin_ip    = "203.0.113.25/32"   # your public IP: curl -s ifconfig.me
+
+location            = "francecentral"
+vm_size             = "Standard_B1s"
+ssh_public_key_path = "~/.ssh/id_ed25519.pub"
+
+# Stage 2, after ~20 minutes of logs:
+# enable_sentinel_rules = true

@@ -1,0 +1,12 @@
+[
+ {
+  "TableName": "PrimaryResult",
+  "TimeGenerated": "2026-11-25T18:04:30Z",
+  "Resource": "csldataabc123",
+  "Account": "anonymous",
+  "Detection": "C04 Anonymous read of storage blobs",
+  "Mitre": "T1530",
+  "Severity": "High",
+  "Details": "reads=5 from=198.51.100.7:51234 status=200 objects=/csldataabc123/reports/fake-customer-list.csv"
+ }
+]
